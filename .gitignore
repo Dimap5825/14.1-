@@ -1,0 +1,74 @@
+# 🐍 Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.log
+*.tmp
+*.bak
+*.swp
+
+# 🧰 Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# 📦 Poetry
+poetry.lock
+# (если хочешь хранить lock-файл в репозитории — удали строку выше)
+
+# 🧪 Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# 🧠 IDE / Editors
+# PyCharm / JetBrains
+.idea/
+# VSCode
+.vscode/
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# 🧾 OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# 🧩 Project specific
+# compiled data
+*.db
+*.sqlite3
+*.json.backup
+
+# 🔧 Build / distribution
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+MANIFEST
+
+# 🧍 User files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+*.old
+
+# 🚫 Tests artifacts
+tests/__pycache__/
+tests/.pytest_cache/
