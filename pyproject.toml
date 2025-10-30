@@ -4,10 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Dimap5825 <dimap5825@gmail.com>"]
 readme = "README.md"
-packages = [{include = "14"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
 pytest = "^8.4.2"
 
 
