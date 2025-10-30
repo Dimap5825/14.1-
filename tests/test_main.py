@@ -45,7 +45,6 @@ def test_class_Category(class_Category):
 
 def test_class_Product(class_Product):
 
-
     assert  class_Product.name == 'Cola'
     assert class_Product.description == 'foreign'
     assert class_Product.price == 66
