@@ -8,6 +8,7 @@ packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 pytest = "^8.4.2"
+python = "^3.13.11"
 
 
 [build-system]
