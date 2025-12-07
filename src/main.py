@@ -6,11 +6,11 @@ class Product:
     # название
     name : str
     # описание
-    description:str
+    description : str
     # цена
-    price:int
+    price : int
     # количество в наличии
-    quantity:int
+    quantity : int
     # задание 2 инициализация
     def __init__(self, name, description, price, quantity):
         self.name = name
@@ -18,9 +18,12 @@ class Product:
         self.price = price
         self.quantity = quantity
 
+    # позволяет сравнивать 2 обьекта
     def __eq__(self, other):
+        # если класс не Product сравнивать смысла нет
         if not isinstance(other, Product):
             return False
+        # если оба обьекта имеют класс Product то сравнивать их по параметрам
         return (
                 self.name == other.name and
                 self.description == other.description and
@@ -28,6 +31,7 @@ class Product:
                 self.quantity == other.quantity
         )
 
+    # определяет как обьект будет выглядить при выходе
     def __repr__(self):
         return f'Product(name = {self.name}, description = {self.description},price = {self.price},quantity = {self.quantity})'
 
@@ -44,11 +48,19 @@ class Category:
     description:str
     # список товаров категории
     products:list
+
     # задание 2 инициализация
-    def __init__(self, name, description, products ):
+    def __init__(self, name, description, products = None ):
+        # название
         self.name = name
+        # описание
         self.description = description
+        # список товаров
+            #     если пустой
+        if products is None:
+            products = []
         self.products = products
+        # количество товаров
         self.count_products = len(products)
 
         Category.count_category += 1
@@ -79,4 +91,3 @@ class Category:
 
 
 # category_list = generate_category_list()
-# print(data_list)
