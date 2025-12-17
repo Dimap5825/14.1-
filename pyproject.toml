@@ -6,9 +6,12 @@ authors = ["Dimap5825 <dimap5825@gmail.com>"]
 readme = "README.md"
 packages = [{include = "src"}]
 
+
 [tool.poetry.dependencies]
-pytest = "^8.4.2"
 python = "^3.13.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
 
 
 [build-system]

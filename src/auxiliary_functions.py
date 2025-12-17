@@ -5,15 +5,40 @@ import json
 
 def json_to_py_dict(path = DATA_PATH)->dict|list:
     """
-    :param path:
-    :return:
+    :param: path(путь к файлу .json)
+
+    :return:list
+    пример ниже
+    [
+   Category(
+       name =
+       description =
+       products =
+       [
+           Product(
+               name = ,
+               description = ,
+               price = ,
+               quantity = ),
+            Product(
+                name =
+                description = ,
+                Gray space,
+                price = ,
+                quantity = )
+        ],
+    Category(
+    ...
+    )
+    ]
+
     """
-    with open(DATA_PATH,'r') as f:
+    with open(path ,'r') as f:
         return json.load(f)
 
 # Дополниетльное задание
 
-def generate_category_list(path:str=None) ->list:
+def generate_category_list(path:str=DATA_PATH) ->list:
     """
     Генерирует список категорий из json файла(json файл - источник)
     :param path:
@@ -42,4 +67,4 @@ def generate_category_list(path:str=None) ->list:
 
     return category_list
 
-# print(generate_category_list())
+print(generate_category_list())
