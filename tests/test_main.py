@@ -60,7 +60,7 @@ def test_class_product(class_product_1):
 
     assert class_product_1.name == 'Cola'
     assert class_product_1.description == 'foreign'
-    assert class_product_1.get_price == 66
+    assert class_product_1.price == 66
     assert class_product_1.quantity == 123
 
 
@@ -100,7 +100,7 @@ def test_private_attribute(class_category, class_product_1):
     cat.add_product(product)
     # проверка приватности ( что атрибут реально приватный)
     with pytest.raises(AttributeError):
-        _ = cat.products
+        _ = cat.__products
 
 def test_add_products(class_product_1, class_product_2, class_category):
     """
@@ -112,14 +112,18 @@ def test_add_products(class_product_1, class_product_2, class_category):
     :param class_category:
     :return:
     """
+    # Создал категорию
     cat = class_category
     # Category(name='drinks', description='carbonated', products=[])
+    # Создал продукт 1
     p_1 = class_product_1
+    # Создал продукт 2
     p_2 = class_product_2
     # Product(name='Cola', description='foreign', price=66, quantity=123)
+    # Запускаю метод .add_product
     cat.add_product(product=[p_1,p_2])
 
-    assert cat.display_products_list == f'Cola, 66, Остаток: 123 шт Pepsi, 66, Остаток: 123 шт '
+    assert cat.products == f'Cola, 66 руб. Остаток:123 шт.\nPepsi, 66 руб. Остаток:123 шт.\n'
 
 def test_new_product(dict_for_create_product):
     """
@@ -139,7 +143,7 @@ def test_new_product_2(dict_for_create_product):
     # такой же продукт с такими же данными значит цена больше в 2 раза
     p_1 = Product.new_product(dict_for_create_product, list_of_unique_products=list_for_test)
     assert p_1.quantity == 246
-    assert p_1.get_price == 66
+    assert p_1.price == 66
 
 def test_private_price_attribute_product(class_product_1):
     """
@@ -150,7 +154,7 @@ def test_private_price_attribute_product(class_product_1):
     p_1 = class_product_1
     with pytest.raises(AttributeError):
 
-        _ = p_1.price
+        _ = p_1.__price
 
 # тест для
 #  * Дополнительное задание (к заданию 4)
@@ -167,9 +171,9 @@ def test_price_low_y(class_product_1,monkeypatch):
     # подменяем input → всегда отвечает "y"
     monkeypatch.setattr('builtins.input', lambda _: 'y')
     p_1 = class_product_1 #price=66
-    p_1.get_price = 19
+    p_1.price = 19
 
-    assert p_1.get_price == 19
+    assert p_1.price == 19
 
 
 def test_price_low_n(class_product_1, monkeypatch):
@@ -182,7 +186,7 @@ def test_price_low_n(class_product_1, monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: 'N')
 
     p_1 = class_product_1  # price=66
-    p_1.get_price = 19
+    p_1.price = 19
 
-    assert p_1.get_price == 66
+    assert p_1.price == 66
 
