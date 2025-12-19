@@ -67,4 +67,4 @@ def generate_category_list(path:str=DATA_PATH) ->list:
 
     return category_list
 
-print(generate_category_list())
+# print(generate_category_list())
