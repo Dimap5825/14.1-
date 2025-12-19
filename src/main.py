@@ -9,7 +9,7 @@ class Product:
     # описание
     description : str
     # цена
-    price : int
+    price: int
     # количество в наличии
     quantity : int
 
@@ -21,7 +21,7 @@ class Product:
         # приватный
         self.__price = price
         self.quantity = quantity
-        self.__display = f'{self.name}, {self.__price}, Остаток: {self.quantity} шт '
+        self.__display = f'{self.name}, {self.__price} руб. Остаток:{self.quantity} шт.\n'
         self.info = {'name': self.name, 'description': self.description, 'price': self.__price, 'quantity': self.quantity}
         self._is_initialized = True
 
@@ -35,13 +35,13 @@ class Product:
         return (
                 self.name == other.name and
                 self.description == other.description and
-                self.get_price == other.get_price and
+                self.price == other.price and
                 self.quantity == other.quantity
         )
 
     # определяет как обьект будет выглядить при выходе
     def __repr__(self):
-        return f'Product(name = {self.name}, description = {self.description},price = {self.get_price},quantity = {self.quantity})'
+        return f'Product(name = {self.name}, description = {self.description},price = {self.price},quantity = {self.quantity})'
 
 #Задание 3 (14.2)
     # Пусть нам передают список товаров в таом формате:
@@ -67,8 +67,8 @@ class Product:
                 # если имя такое же то начинаем обьединять
                 if product.name == new_product.name:
                     product.quantity += new_product.quantity
-                    if product.get_price < new_product.get_price:
-                        product.get_price = new_product.get_price
+                    if product.price < new_product.price:
+                        product.price = new_product.price
                     new_product = product
                     return new_product
             # если не нашлось продукта с таким именем то код дойдёт до сюда
@@ -82,11 +82,11 @@ class Product:
     # “Цена не должна быть нулевая или отрицательная”
     # при этом новую цену устанавливать не нужно.
     @property
-    def get_price(self):
+    def price(self):
         return self.__price
 
-    @get_price.setter
-    def get_price(self,new_price :int|float = 0):
+    @price.setter
+    def price(self,new_price :int|float = 0):
         if new_price <= 0 :
             print('Цена не должна быть нулевая или отрицательная')
         else:
@@ -133,10 +133,8 @@ class Category:
         # описание
         self.description = description
         # список товаров
-            #     если пустой
         if products is None:
             products = []
-            # если не пустой
         self.__products = products
         # количество товаров
         self.count_products = len(products)
@@ -201,8 +199,8 @@ class Category:
 # который будет выводить список товаров в виде строк в формате:
 # "Название продукта, 80 руб. Остаток: 15 шт."
 
-    # свойство
-    def display_products_list_fun(self):
+    # свойство(геттер)
+    def get_products(self):
         """
 
         :return: str (общая строка в формате как будто отдельные строки)
@@ -214,26 +212,6 @@ class Category:
 
     # метод(заменяющий атрибут, потому что мы его сделали приватным)
     @property
-    def display_products_list(self):
-        return self.display_products_list_fun()
+    def products(self):
+        return self.get_products()
 
-
-# product_1 = Product('pen_1','описание',45, 1)
-# product_2 =Product('pen_2','описание',45, 2)
-# product_3 = Product.new_product({'name':'pen','description':'описание_3','price':89,'quantity':3})
-# cat_1 = Category(name='pens',description='гелевые',products=[product_1,product_2])
-# print(cat_1.display_products_list)
-# cat_1.add_product(product=product_3)
-# print('\n')
-# print(cat_1.display_products_list)
-# print('\n')
-# print(Category.general_count_products)
-
-
-
-cat =  Category(name='drinks', description='carbonated', products=[])
-p=  Product(name='Cola', description='foreign', price=66, quantity=123)
-cat.add_product(product=p)
-# print(cat.display_products_list)
-# print(p.price)
-# p.get_price = 1
