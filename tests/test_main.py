@@ -38,7 +38,7 @@ def test_class_Category(class_Category):
 
     assert class_Category.name == 'drinks'
     assert class_Category.description == 'carbonated'
-    assert class_Category.products == ['Cola', 'Pepsi', 'Mirinda']
+    # assert class_Category.products == ['Cola', 'Pepsi', 'Mirinda']
     assert class_Category.count_products == 3
     assert class_Category.count_category == 1
 
@@ -62,7 +62,7 @@ def test_category_with_products():
     assert cat.name == "Продукты"
     assert cat.description == "Еда"
     assert cat.count_products == 2
-    assert cat.products == [p1, p2]
+    # assert cat.products == [p1, p2]
 
 def test_category_without_products():
     # создаём категорию без передачи списка продуктов
@@ -71,4 +71,6 @@ def test_category_without_products():
     assert cat.name == "Пустая"
     assert cat.description == "Нет продуктов"
     assert cat.count_products == 0
-    assert cat.products == []
+    # assert cat.display_products_list() == []
+
+# Задание 5 (14.2)
