@@ -215,23 +215,3 @@ class Category:
     def products(self):
         return self.get_products()
 
-
-# product_1 = Product('pen_1','описание',45, 1)
-# product_2 =Product('pen_2','описание',45, 2)
-# product_3 = Product.new_product({'name':'pen','description':'описание_3','price':89,'quantity':3})
-# cat_1 = Category(name='pens',description='гелевые',products=[product_1,product_2])
-# print(cat_1.display_products_list)
-# cat_1.add_product(product=product_3)
-# print('\n')
-# print(cat_1.display_products_list)
-# print('\n')
-# print(Category.general_count_products)
-
-
-
-cat =  Category(name='drinks', description='carbonated', products=[])
-p=  Product(name='Cola', description='foreign', price=66, quantity=123)
-cat.add_product(product=p)
-# print(cat.display_products_list)
-# print(p.price)
-# p.get_price = 1
