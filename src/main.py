@@ -21,7 +21,7 @@ class Product:
         # приватный
         self.__price = price
         self.quantity = quantity
-        self.display = f'{self.name}, {self.__price}, Остаток: {self.quantity} шт '
+        self.__display = f'{self.name}, {self.__price}, Остаток: {self.quantity} шт '
         self.info = {'name': self.name, 'description': self.description, 'price': self.__price, 'quantity': self.quantity}
         self._is_initialized = True
 
@@ -35,13 +35,13 @@ class Product:
         return (
                 self.name == other.name and
                 self.description == other.description and
-                self.price == other.price and
+                self.get_price == other.get_price and
                 self.quantity == other.quantity
         )
 
     # определяет как обьект будет выглядить при выходе
     def __repr__(self):
-        return f'Product(name = {self.name}, description = {self.description},price = {self.price},quantity = {self.quantity})'
+        return f'Product(name = {self.name}, description = {self.description},price = {self.get_price},quantity = {self.quantity})'
 
 #Задание 3 (14.2)
     # Пусть нам передают список товаров в таом формате:
@@ -50,7 +50,9 @@ class Product:
         #     Product(...),
         # ]
     @classmethod
-    def new_product(cls, data_dict, list_of_unique_products):
+    def new_product(cls, data_dict, list_of_unique_products=None):
+        # list_of_unique_products - список уникальных имён продуктов
+        # (чтобы не повторялись по заданию даётся сам по себе)
         # Создаём новый обьект
         new_product = cls(
             name=data_dict['name'],
@@ -58,19 +60,19 @@ class Product:
             price=data_dict['price'],
             quantity=data_dict['quantity']
         )
-        # Начинаем проверку в переданном списке
-
-        # Если есть продукт с таким именем, то меняем информацию о его количестве
-        for product in list_of_unique_products:
-            # если имя такое же то начинаем обьединять
-            if product.name == new_product.name:
-                product.quantity += new_product.quantity
-                if product.price < new_product.price:
-                    product.price = new_product.price
+        # Начинаем проверку в переданном списке если передан
+        if list_of_unique_products:
+            # Если есть продукт с таким именем, то меняем информацию о его количестве
+            for product in list_of_unique_products:
+                # если имя такое же то начинаем обьединять
+                if product.name == new_product.name:
+                    product.quantity += new_product.quantity
+                    if product.get_price < new_product.get_price:
+                        product.get_price = new_product.get_price
                     new_product = product
                     return new_product
-        # если не нашлось продукта с таким именем то код дойдёт до сюда
-        list_of_unique_products.append(new_product)
+            # если не нашлось продукта с таким именем то код дойдёт до сюда
+            list_of_unique_products.append(new_product)
         return new_product
 
     # Задание 4 геттер для Product.__price
@@ -80,11 +82,11 @@ class Product:
     # “Цена не должна быть нулевая или отрицательная”
     # при этом новую цену устанавливать не нужно.
     @property
-    def price(self):
+    def get_price(self):
         return self.__price
 
-    @price.setter
-    def price(self,new_price :int|float = 0):
+    @get_price.setter
+    def get_price(self,new_price :int|float = 0):
         if new_price <= 0 :
             print('Цена не должна быть нулевая или отрицательная')
         else:
@@ -94,14 +96,18 @@ class Product:
                     # если цену хотят снизить запрагиваем ращрешение
                     user_answer = input('Вы хотите понизить цену?\ny (значит yes) или n (значит no) ')
                     # если да меняем цену
-                    if user_answer == 'y':
+                    if user_answer.lower() == 'y':
                         self.__price = new_price
                         break
-                    elif user_answer == 'n':
+                    elif user_answer.lower() == 'n':
                         print('Изменение цены отменено')
                         break
                     else:
                         print('неверный ввод, попробуйте заново')
+
+    @property
+    def display(self):
+        return self.__display
 
 
 
@@ -109,7 +115,9 @@ class Category:
     """
     Класс Категория
     """
+    # количсетво категорий
     count_category = 0
+    # количетво продуктов
     general_count_products = 0
     # название
     name:str
@@ -128,6 +136,7 @@ class Category:
             #     если пустой
         if products is None:
             products = []
+            # если не пустой
         self.__products = products
         # количество товаров
         self.count_products = len(products)
@@ -148,7 +157,7 @@ class Category:
             self.__products == other.__products
         )
 
-     # чтобы выводилось красиво
+     # чтобы выводилось красиво для разработчика
     def __repr__(self):
         return (
                 f'\n   Category(name = {self.name}, description = {self.description},'
@@ -160,23 +169,40 @@ class Category:
 
     # задание 1 (14.2)
     # добавить продукт
-    def add_product(self,product:Product):
-
+    def add_product(self,product:list[Product]|Product):
+        """
+        Добавление продукта в список категории
+        self: категория(конкретная)
+        product : список обьектов типа Product или просто обьект Product
+        """
+        # если передан просто обьект типа Product
         if isinstance(product,Product):
             self.__products.append(product)
+            type(self).general_count_products += 1
+
+
+        # если передан список с обьектами типа Product
+        elif isinstance(product,list):
+            for i in product:
+                if isinstance(i,Product):
+                    self.__products.append(i)
+                    type(self).general_count_products += 1
+
+
+
+
 
 #     Задание 2(14.2)
 # Так как вы сделали атрибут со списком товаров приватным,
 # то атрибут «список товаров категории» у вас освободился,
 # но вы лишили программу возможности выводить список товаров.
 # Чтобы вернуть возможность просмотра товаров, нужно реализовать
-
 # Геттер
 # который будет выводить список товаров в виде строк в формате:
 # "Название продукта, 80 руб. Остаток: 15 шт."
 
     # свойство
-    def display_products_list(self):
+    def display_products_list_fun(self):
         """
 
         :return: str (общая строка в формате как будто отдельные строки)
@@ -184,18 +210,30 @@ class Category:
 
         # генератор перебирающий по одному продукту в списке категории
         gener_product = (product.display for product in self.__products)
-        return '\n'.join(gener_product)
+        return ''.join(gener_product)
 
-    # метод(атрибут)
+    # метод(заменяющий атрибут, потому что мы его сделали приватным)
     @property
-    def display(self):
-        return self.display_products_list()
+    def display_products_list(self):
+        return self.display_products_list_fun()
 
 
-# # product_1 = Product('pen_1','описание',45, 1)
-# # product_2 =Product('pen_2','описание',45, 2)
+# product_1 = Product('pen_1','описание',45, 1)
+# product_2 =Product('pen_2','описание',45, 2)
 # product_3 = Product.new_product({'name':'pen','description':'описание_3','price':89,'quantity':3})
 # cat_1 = Category(name='pens',description='гелевые',products=[product_1,product_2])
+# print(cat_1.display_products_list)
+# cat_1.add_product(product=product_3)
+# print('\n')
+# print(cat_1.display_products_list)
+# print('\n')
+# print(Category.general_count_products)
 
 
 
+cat =  Category(name='drinks', description='carbonated', products=[])
+p=  Product(name='Cola', description='foreign', price=66, quantity=123)
+cat.add_product(product=p)
+# print(cat.display_products_list)
+# print(p.price)
+# p.get_price = 1
