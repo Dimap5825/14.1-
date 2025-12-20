@@ -29,7 +29,7 @@ def class_category():
     :return:Category
     """
     Category.count_category = 0
-    Category.general_count_products = 0
+    Category.count_products = 0
     return Category(name= 'drinks', description= 'carbonated', products= [] )
 
 

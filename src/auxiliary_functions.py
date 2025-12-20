@@ -33,7 +33,7 @@ def json_to_py_dict(path = DATA_PATH)->dict|list:
     ]
 
     """
-    with open(path ,'r') as f:
+    with open(path ,'r',encoding='utf-8') as f:
         return json.load(f)
 
 # Дополниетльное задание

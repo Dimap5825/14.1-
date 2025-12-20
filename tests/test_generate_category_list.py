@@ -5,7 +5,7 @@ from src.main import Category,Product
 def test_category_list():
 
     Category.count_category = 0  # сбрасываем глобальный счётчик
-    Category.general_count_products = 0
+    Category.count_products = 0
 
 
     result = generate_category_list()
