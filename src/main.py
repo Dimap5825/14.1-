@@ -118,7 +118,7 @@ class Category:
     # количсетво категорий
     count_category = 0
     # количетво продуктов
-    general_count_products = 0
+    count_products = 0
     # название
     name:str
     # описание
@@ -140,7 +140,7 @@ class Category:
         self.count_products = len(products)
 
         Category.count_category += 1
-        Category.general_count_products += len(products)
+        Category.count_products += len(products)
 
     # правила сравнения
     def __eq__(self, other):
@@ -161,7 +161,7 @@ class Category:
                 f'\n   Category(name = {self.name}, description = {self.description},'
                 f'products = {self.__products}, count_products = {self.count_products})\n'
                 f'Всего категорий:{Category.count_category}\n'
-                f'Всего продуктов:{Category.general_count_products})'
+                f'Всего продуктов:{Category.count_products})'
         )
 
 
@@ -176,7 +176,7 @@ class Category:
         # если передан просто обьект типа Product
         if isinstance(product,Product):
             self.__products.append(product)
-            type(self).general_count_products += 1
+            type(self).count_products += 1
 
 
         # если передан список с обьектами типа Product
@@ -184,7 +184,7 @@ class Category:
             for i in product:
                 if isinstance(i,Product):
                     self.__products.append(i)
-                    type(self).general_count_products += 1
+                    type(self).count_products += 1
 
 
 
