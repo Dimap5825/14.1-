@@ -21,17 +21,32 @@ class Product:
         # приватный
         self.__price = price
         self.quantity = quantity
-        self.__display = f'{self.name}, {self.__price} руб. Остаток:{self.quantity} шт.\n'
         self.info = {'name': self.name, 'description': self.description, 'price': self.__price, 'quantity': self.quantity}
         self._is_initialized = True
 
+    # строковое отображение продукта
+    def __str__(self):
+        """
+
+        :return: str
+        """
+        return f'{self.name}, {self.__price} руб. Остаток:{self.quantity} шт.\n'
+
+
+    def __add__(self, other):
+        """
+        сложение продуктов
+        :param other:
+        :return: int|float
+        """
+        return (self.price * self.quantity) + (other.price * other.quantity)
 
     # позволяет сравнивать 2 обьекта
     def __eq__(self, other):
         # если класс не Product сравнивать смысла нет
         if not isinstance(other, Product):
             return False
-        # если оба обьекта имеют класс Product то сравнивать их по параметрам
+        # если оба обьекта имеют класс Product, то сравнивать их по параметрам
         return (
                 self.name == other.name and
                 self.description == other.description and
@@ -71,7 +86,7 @@ class Product:
                         product.price = new_product.price
                     new_product = product
                     return new_product
-            # если не нашлось продукта с таким именем то код дойдёт до сюда
+            # если не нашлось продукта с таким именем, то код дойдёт до сюда
             list_of_unique_products.append(new_product)
         return new_product
 
@@ -107,7 +122,7 @@ class Product:
 
     @property
     def display(self):
-        return self.__display
+        return self.__str__()
 
 
 
@@ -141,6 +156,18 @@ class Category:
 
         Category.count_category += 1
         Category.count_products += len(products)
+    # строковое отображение Category
+    def __str__(self):
+        """
+
+        :return: str | формат по заданию:"Название категории, количество продуктов: 200 шт."
+        """
+        # алгоритм проходиться по всем продуктам в категории и складывает их количество
+        total_quantity = 0
+        for i in self.__products:
+            total_quantity += i.quantity
+
+        return f'{self.name}, количество продуктов: {total_quantity} шт.'
 
     # правила сравнения
     def __eq__(self, other):
@@ -148,7 +175,7 @@ class Category:
         if not isinstance(other,Category):
             return False
 
-        # Если типы данных у обоих Category то сравниваем их по полям
+        # Если типы данных у обоих Category, то сравниваем их по полям
         return (
             self.name == other.name and
             self.description == other.description and
@@ -215,3 +242,6 @@ class Category:
     def products(self):
         return self.get_products()
 
+
+p_1 = Product('name','описание',99,2)
+print(p_1)

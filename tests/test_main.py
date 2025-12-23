@@ -178,7 +178,8 @@ def test_price_low_y(class_product_1,monkeypatch):
 
 def test_price_low_n(class_product_1, monkeypatch):
     """
-    Проверка работы сеттера при ответе нет(в высоком регистре) "N"
+    Проверка работы сеттера при ответе нет(в высоком регистре)
+     "N"
     (если цена понижается запрашивать подтверждение)
     :return:
     """
@@ -187,6 +188,45 @@ def test_price_low_n(class_product_1, monkeypatch):
 
     p_1 = class_product_1  # price=66
     p_1.price = 19
-
     assert p_1.price == 66
 
+def test_product_str(class_product_1):
+    """
+    class_product_1 :
+    name='Cola', description='foreign' , price=66, quantity=123
+    Проверка __str__(строкового отображения)
+    """
+    p_1 = class_product_1
+    # assert str(p_1) == f'{p_1.name}, {p_1.price} руб. Остаток:{p_1.quantity} шт.\n'
+    assert str(p_1) == "Cola, 66 руб. Остаток:123 шт.\n"
+
+def test_categoty_str(class_product_1,class_product_2,class_category):
+    """
+    Проверка строкового отображения категории
+    :param class_product_1:
+    name='Cola', description='foreign' , price=66, quantity=123
+    :param class_product_2:
+    name='Pepsi', description='foreign', price=66, quantity=123
+    :class_category:
+    name= 'drinks', description= 'carbonated', products= []
+    :return:
+    """
+    p_1 = class_product_1
+    p_2 = class_product_2
+    cat_1 = class_category
+    cat_1.add_product(product=[p_1,p_2])
+    assert str(cat_1) == 'drinks, количество продуктов: 246 шт.'
+
+def test_product_add(class_product_1,class_product_2):
+    """
+    Проверка сложения обьектов класса Product
+    :param class_product_1:
+    name='Cola', description='foreign' , price=66, quantity=123
+    :param class_product_2:
+    name='Pepsi', description='foreign', price=66, quantity=123
+    :return:
+    """
+    p_1 = class_product_1
+    p_2 =class_product_2
+    result = p_1 + p_2
+    assert result == 16236
