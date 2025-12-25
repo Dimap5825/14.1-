@@ -1,5 +1,6 @@
-import  pytest
-from src.main import Category,Product
+import pytest
+
+from src.main import Category, Product
 
 
 @pytest.fixture()
@@ -10,7 +11,8 @@ def class_product_1():
     :return: Product
     """
 
-    return Product(name='Cola', description='foreign' , price=66, quantity=123)
+    return Product(name="Cola", description="foreign", price=66, quantity=123)
+
 
 @pytest.fixture()
 def class_product_2():
@@ -19,7 +21,8 @@ def class_product_2():
     Вводные данные для теста класса Product
     :return:Product
     """
-    return Product(name='Pepsi', description='foreign', price=66, quantity=123)
+    return Product(name="Pepsi", description="foreign", price=66, quantity=123)
+
 
 # Шаблон категория
 @pytest.fixture()
@@ -30,7 +33,7 @@ def class_category():
     """
     Category.count_category = 0
     Category.count_products = 0
-    return Category(name= 'drinks', description= 'carbonated', products= [] )
+    return Category(name="drinks", description="carbonated", products=[])
 
 
 @pytest.fixture()
@@ -39,8 +42,7 @@ def dict_for_create_product():
     Словарь для создания обьекта типа Product
     :return:dict
     """
-    return {'name':'Mirinda', 'description':'foreign' , 'price':66, 'quantity':123}
-
+    return {"name": "Mirinda", "description": "foreign", "price": 66, "quantity": 123}
 
 
 def test_class_category(class_category):
@@ -50,16 +52,16 @@ def test_class_category(class_category):
     :return:
     """
 
-    assert class_category.name == 'drinks'
-    assert class_category.description == 'carbonated'
+    assert class_category.name == "drinks"
+    assert class_category.description == "carbonated"
     assert class_category.count_products == 0
     assert class_category.count_category == 1
 
 
 def test_class_product(class_product_1):
 
-    assert class_product_1.name == 'Cola'
-    assert class_product_1.description == 'foreign'
+    assert class_product_1.name == "Cola"
+    assert class_product_1.description == "foreign"
     assert class_product_1.price == 66
     assert class_product_1.quantity == 123
 
@@ -102,6 +104,7 @@ def test_private_attribute(class_category, class_product_1):
     with pytest.raises(AttributeError):
         _ = cat.__products
 
+
 def test_add_products(class_product_1, class_product_2, class_category):
     """
 
@@ -121,9 +124,12 @@ def test_add_products(class_product_1, class_product_2, class_category):
     p_2 = class_product_2
     # Product(name='Cola', description='foreign', price=66, quantity=123)
     # Запускаю метод .add_product
-    cat.add_product(product=[p_1,p_2])
+    cat.add_product(product=[p_1, p_2])
 
-    assert cat.products == f'Cola, 66 руб. Остаток:123 шт.\nPepsi, 66 руб. Остаток:123 шт.\n'
+    assert (
+        cat.products == "Cola, 66 руб. Остаток:123 шт.\nPepsi, 66 руб. Остаток:123 шт.\n"
+    )
+
 
 def test_new_product(dict_for_create_product):
     """
@@ -133,17 +139,21 @@ def test_new_product(dict_for_create_product):
     """
     p_1 = Product.new_product(dict_for_create_product)
     # Обьект имеет класс Product
-    assert type(p_1) == Product
+    assert isinstance(p_1, Product)
     # Можно обращаться к атрибутам обьекта
     assert p_1.name == "Mirinda"
+
 
 def test_new_product_2(dict_for_create_product):
     # Лист с продуктом из словаря
     list_for_test = [Product.new_product(dict_for_create_product)]
     # такой же продукт с такими же данными значит цена больше в 2 раза
-    p_1 = Product.new_product(dict_for_create_product, list_of_unique_products=list_for_test)
+    p_1 = Product.new_product(
+        dict_for_create_product, list_of_unique_products=list_for_test
+    )
     assert p_1.quantity == 246
     assert p_1.price == 66
+
 
 def test_private_price_attribute_product(class_product_1):
     """
@@ -156,12 +166,13 @@ def test_private_price_attribute_product(class_product_1):
 
         _ = p_1.__price
 
+
 # тест для
 #  * Дополнительное задание (к заданию 4)
 # В случае если цена товара понижается, добавить логику подтверждения пользователем
 # вручную через ввод y (значит yes) или n (значит no) для согласия понизить цену
 #  или для отмены действия соответственно.
-def test_price_low_y(class_product_1,monkeypatch):
+def test_price_low_y(class_product_1, monkeypatch):
     """
     Проверка работы сеттера при ответе да
     (если цена понижается запрашивать подтверждение)
@@ -169,8 +180,8 @@ def test_price_low_y(class_product_1,monkeypatch):
     """
     # при ответе да
     # подменяем input → всегда отвечает "y"
-    monkeypatch.setattr('builtins.input', lambda _: 'y')
-    p_1 = class_product_1 #price=66
+    monkeypatch.setattr("builtins.input", lambda _: "y")
+    p_1 = class_product_1  # price=66
     p_1.price = 19
 
     assert p_1.price == 19
@@ -178,15 +189,58 @@ def test_price_low_y(class_product_1,monkeypatch):
 
 def test_price_low_n(class_product_1, monkeypatch):
     """
-    Проверка работы сеттера при ответе нет(в высоком регистре) "N"
+    Проверка работы сеттера при ответе нет(в высоком регистре)
+     "N"
     (если цена понижается запрашивать подтверждение)
     :return:
     """
     # подменяем input → всегда отвечает "n"
-    monkeypatch.setattr('builtins.input', lambda _: 'N')
+    monkeypatch.setattr("builtins.input", lambda _: "N")
 
     p_1 = class_product_1  # price=66
     p_1.price = 19
-
     assert p_1.price == 66
 
+
+def test_product_str(class_product_1):
+    """
+    class_product_1 :
+    name='Cola', description='foreign' , price=66, quantity=123
+    Проверка __str__(строкового отображения)
+    """
+    p_1 = class_product_1
+    # assert str(p_1) == f'{p_1.name}, {p_1.price} руб. Остаток:{p_1.quantity} шт.\n'
+    assert str(p_1) == "Cola, 66 руб. Остаток:123 шт.\n"
+
+
+def test_categoty_str(class_product_1, class_product_2, class_category):
+    """
+    Проверка строкового отображения категории
+    :param class_product_1:
+    name='Cola', description='foreign' , price=66, quantity=123
+    :param class_product_2:
+    name='Pepsi', description='foreign', price=66, quantity=123
+    :class_category:
+    name= 'drinks', description= 'carbonated', products= []
+    :return:
+    """
+    p_1 = class_product_1
+    p_2 = class_product_2
+    cat_1 = class_category
+    cat_1.add_product(product=[p_1, p_2])
+    assert str(cat_1) == "drinks, количество продуктов: 246 шт."
+
+
+def test_product_add(class_product_1, class_product_2):
+    """
+    Проверка сложения обьектов класса Product
+    :param class_product_1:
+    name='Cola', description='foreign' , price=66, quantity=123
+    :param class_product_2:
+    name='Pepsi', description='foreign', price=66, quantity=123
+    :return:
+    """
+    p_1 = class_product_1
+    p_2 = class_product_2
+    result = p_1 + p_2
+    assert result == 16236
