@@ -1,5 +1,6 @@
 from src.auxiliary_functions import generate_category_list
-from src.main import Category, Product
+from src.category import Category
+from src.product import Product
 
 
 def test_category_list():
