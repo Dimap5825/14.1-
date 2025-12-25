@@ -1,0 +1,26 @@
+[flake8]
+# Что НЕ проверять
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    build,
+    dist,
+    bin
+
+# Максимальная длина строки (как у black)
+max-line-length = 100
+
+
+
+ignore =
+    E203,
+    W503
+
+# Показывать статистику ошибок
+statistics = True
+
+# Максимальная сложность функции (можно убрать)
+max-complexity = 10
