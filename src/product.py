@@ -43,7 +43,7 @@ class Product:
         :return: int|float
         """
         # если классы одинаковые, то складывать иначе TypeError
-        if isinstance(self,type(other)):
+        if type(self) == type(other):
             return (self.price * self.quantity) + (other.price * other.quantity)
         else:
             raise TypeError
