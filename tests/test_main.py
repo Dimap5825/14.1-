@@ -1,7 +1,7 @@
 import pytest
 
-from src.main import Category, Product
-
+from src.product import Product, Smartphone, LawnGrass
+from src.category import Category
 
 @pytest.fixture()
 def class_product_1():
@@ -244,3 +244,8 @@ def test_product_add(class_product_1, class_product_2):
     p_2 = class_product_2
     result = p_1 + p_2
     assert result == 16236
+
+# Тесты 16.1
+@pytest.fixture()
+def smartphone_1(class_product_1):
+    return Smartphone(class_product_1,efficiency=10,model= 'iphone', memory= 99, color= 'black')

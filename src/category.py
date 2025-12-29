@@ -84,10 +84,15 @@ class Category:
         # если передан список с обьектами типа Product
         elif isinstance(product, list):
             for i in product:
-                if isinstance(i, Product):
+                # если i(обьект из списка) является обьектом класса Product или его наследников(дочерних классов)
+                if issubclass(type(i), Product):
+                    # добавить обьект(i) в категорию
                     self.__products.append(i)
+                    # количество продуктов +1
                     type(self).count_products += 1
-
+        # если обьект не Product или его наследник
+        else:
+            raise TypeError
     #     Задание 2(14.2)
     # Так как вы сделали атрибут со списком товаров приватным,
     # то атрибут «список товаров категории» у вас освободился,

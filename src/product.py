@@ -42,7 +42,11 @@ class Product:
         :param other:
         :return: int|float
         """
-        return (self.price * self.quantity) + (other.price * other.quantity)
+        # если классы одинаковые, то складывать иначе TypeError
+        if type(self) == type(other):
+            return (self.price * self.quantity) + (other.price * other.quantity)
+        else:
+            raise TypeError
 
     # позволяет сравнивать 2 обьекта
     def __eq__(self, other):
@@ -131,3 +135,31 @@ class Product:
     @property
     def display(self):
         return self.__str__()
+
+class Smartphone(Product):
+    """
+    Класс: «Смартфон» Smartphone
+    (наследник Product)
+    """
+    def __init__(self,name, description, price, quantity,efficiency, model, memory, color):
+        # инициализация методов которые есть в родительском классе
+        super().__init__(name= name, description= description, price= price, quantity= quantity)
+        # инициализация новых атрибутов класса (наследника)
+        self.efficiency = efficiency         # производительность
+        self.model = model                   # модель
+        self.memory = memory                 # объем встроенной памяти
+        self.color = color                   # цвет
+
+
+class LawnGrass(Product):
+    """
+    Класс: «Трава газонная» LawnGrass
+    (наследник Product)
+    """
+    def __init__(self, name, description, price, quantity, country, germination_period, color ):
+        # инициализация методов которые есть в родительском классе
+        super().__init__(name= name, description= description, price= price, quantity= quantity)
+        # страна - производитель
+        self.country = country                          # страна производитель
+        self.germination_period = germination_period    # срок прорастания
+        self.color = color                              # цвет
