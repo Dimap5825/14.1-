@@ -7,9 +7,9 @@ class Category:
     """
 
     # количсетво категорий
-    count_category = 0
+    category_count = 0
     # количетво продуктов
-    count_products = 0
+    product_count = 0
     # название
     name: str
     # описание
@@ -28,10 +28,10 @@ class Category:
             products = []
         self.__products = products
         # количество товаров
-        self.count_products = len(products)
+        self.product_count = len(products)
 
-        Category.count_category += 1
-        Category.count_products += len(products)
+        Category.category_count += 1
+        Category.product_count += len(products)
 
     # строковое отображение Category
     def __str__(self):
@@ -63,9 +63,9 @@ class Category:
     def __repr__(self):
         return (
             f"\n   Category(name = {self.name}, description = {self.description},"
-            f"products = {self.__products}, count_products = {self.count_products})\n"
-            f"Всего категорий:{Category.count_category}\n"
-            f"Всего продуктов:{Category.count_products})"
+            f"products = {self.__products}, count_products = {self.product_count})\n"
+            f"Всего категорий:{Category.category_count}\n"
+            f"Всего продуктов:{Category.product_count})"
         )
 
     # задание 1 (14.2)
@@ -79,7 +79,7 @@ class Category:
         # если передан просто обьект типа Product
         if isinstance(product, Product):
             self.__products.append(product)
-            type(self).count_products += 1
+            type(self).product_count += 1
 
         # если передан список с обьектами типа Product
         elif isinstance(product, list):
@@ -89,7 +89,7 @@ class Category:
                     # добавить обьект(i) в категорию
                     self.__products.append(i)
                     # количество продуктов +1
-                    type(self).count_products += 1
+                    type(self).product_count += 1
         # если обьект не Product или его наследник
         else:
             raise TypeError

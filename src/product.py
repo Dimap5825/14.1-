@@ -1,6 +1,27 @@
-class Product:
+from src.base_class import BaseProduct
+
+class Mixin:
+    """
+    класс-миксин, который будет при создании объекта,
+    то есть при работе метода __init__ ,
+    печатать в консоль информацию о том,
+    от какого класса и с какими параметрами был создан объект.
+    """
+    def __init__(self, *args, **kwargs):
+        # print(f"Создан обьект: {self.__class__.__name__} {args} ")
+
+        # Передача параметров дальше родительскому классу, чтобы сделать __init__ уже по его правилам
+        super().__init__(*args, **kwargs)
+        # обьект уже создан по правилам родительского класса выше,
+        # поэтому можно применить к нему метод отображения обьекта repr
+        print(f'{repr(self)}')
+
+class Product(Mixin, BaseProduct):
     """
     Класс продукт
+    Mixin - класс в терминал пишет:
+        Создан обьект: Product('Священноискатель', 'Описание есть ', 90000, 9)
+    BaseProduct - базовый класс
     """
 
     # название
@@ -14,19 +35,8 @@ class Product:
 
     # задание 2 инициализация
     def __init__(self, name, description, price, quantity):
-
-        self.name = name
-        self.description = description
-        # приватный
-        self.__price = price
-        self.quantity = quantity
-        self.info = {
-            "name": self.name,
-            "description": self.description,
-            "price": self.__price,
-            "quantity": self.quantity,
-        }
-        self._is_initialized = True
+        # отсылает его к __init__ в Mixin
+        super().__init__(name,description,price,quantity)
 
     # строковое отображение продукта
     def __str__(self):
@@ -112,25 +122,31 @@ class Product:
 
     @price.setter
     def price(self, new_price: int | float = 0):
+        # если цена отрицательна
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
-        else:
-            if self.__price > new_price:
+
+        # если цена ещё не создана, то ей сразу новое значение присуждается
+        if not hasattr(self, '_Product__price'):    # Функция проверяет есть ли у обьекта аттрибут (__price) но по правилам в начале добавляется префикс класса
+            self.__price = new_price
+
+
+        if self.__price > new_price:
                 # запуск цикла для получения ответа от пользователя
-                while True:
-                    # если цену хотят снизить запрагиваем ращрешение
-                    user_answer = input(
-                        "Вы хотите понизить цену?\ny (значит yes) или n (значит no) "
-                    )
-                    # если да меняем цену
-                    if user_answer.lower() == "y":
-                        self.__price = new_price
-                        break
-                    elif user_answer.lower() == "n":
-                        print("Изменение цены отменено")
-                        break
-                    else:
-                        print("неверный ввод, попробуйте заново")
+            while True:
+                # если цену хотят снизить запрагиваем ращрешение
+                user_answer = input(
+                    "Вы хотите понизить цену?\ny (значит yes) или n (значит no) "
+                )
+                # если да меняем цену
+                if user_answer.lower() == "y":
+                    self.__price = new_price
+                    break
+                elif user_answer.lower() == "n":
+                    print("Изменение цены отменено")
+                    break
+                else:
+                    print("неверный ввод, попробуйте заново")
 
     @property
     def display(self):
@@ -142,14 +158,25 @@ class Smartphone(Product):
     (наследник Product)
     """
     def __init__(self,name, description, price, quantity,efficiency, model, memory, color):
+        """
+        Внутриклассовая инициализация
+        :param name:
+        :param description:
+        :param price:
+        :param quantity:
+        :param efficiency:
+        :param model:
+        :param memory:
+        :param color:
+        """
         # инициализация методов которые есть в родительском классе
         super().__init__(name= name, description= description, price= price, quantity= quantity)
+
         # инициализация новых атрибутов класса (наследника)
         self.efficiency = efficiency         # производительность
         self.model = model                   # модель
         self.memory = memory                 # объем встроенной памяти
         self.color = color                   # цвет
-
 
 class LawnGrass(Product):
     """
@@ -163,3 +190,6 @@ class LawnGrass(Product):
         self.country = country                          # страна производитель
         self.germination_period = germination_period    # срок прорастания
         self.color = color                              # цвет
+
+
+p_1 = Product("Священноискатель","Описание есть ", price=90000,quantity=9)

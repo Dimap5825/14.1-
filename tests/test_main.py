@@ -31,7 +31,7 @@ def class_category():
     Вводные данные для теста класса Category(Список продуктов пустой)
     :return:Category
     """
-    Category.count_category = 0
+    Category.category_count = 0
     Category.count_products = 0
     return Category(name="drinks", description="carbonated", products=[])
 
@@ -54,8 +54,8 @@ def test_class_category(class_category):
 
     assert class_category.name == "drinks"
     assert class_category.description == "carbonated"
-    assert class_category.count_products == 0
-    assert class_category.count_category == 1
+    assert class_category.product_count == 0
+    assert class_category.category_count == 1
 
 
 def test_class_product(class_product_1):
@@ -76,7 +76,7 @@ def test_category_with_products():
 
     assert cat.name == "Продукты"
     assert cat.description == "Еда"
-    assert cat.count_products == 2
+    assert cat.product_count == 2
 
 
 def test_category_without_products():
@@ -85,7 +85,7 @@ def test_category_without_products():
 
     assert cat.name == "Пустая"
     assert cat.description == "Нет продуктов"
-    assert cat.count_products == 0
+    assert cat.product_count == 0
 
 
 # Задание 5 (14.2)
