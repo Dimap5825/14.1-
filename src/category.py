@@ -1,3 +1,4 @@
+from src.expected_category import CategoryExpected
 from src.product import Product
 
 
@@ -29,6 +30,7 @@ class Category:
         self.__products = products
         # количество товаров
         self.product_count = len(products)
+
 
         Category.category_count += 1
         Category.product_count += len(products)
@@ -76,23 +78,33 @@ class Category:
         self: категория(конкретная)
         product : список обьектов типа Product или просто обьект Product
         """
-        # если передан просто обьект типа Product
-        if isinstance(product, Product):
-            self.__products.append(product)
-            type(self).product_count += 1
+        try:
+            # если передан просто обьект типа Product
+            if isinstance(product, Product):
+                self.__products.append(product)
+                type(self).product_count += 1
 
-        # если передан список с обьектами типа Product
-        elif isinstance(product, list):
-            for i in product:
-                # если i(обьект из списка) является обьектом класса Product или его наследников(дочерних классов)
-                if issubclass(type(i), Product):
-                    # добавить обьект(i) в категорию
-                    self.__products.append(i)
-                    # количество продуктов +1
-                    type(self).product_count += 1
-        # если обьект не Product или его наследник
-        else:
-            raise TypeError
+            # если передан список с обьектами типа Product
+            elif isinstance(product, list):
+                for i in product:
+                    # если i(обьект из списка) является обьектом класса Product или его наследников(дочерних классов)
+                    if issubclass(type(i), Product):
+                        if i.quantity == 0:
+                            raise CategoryExpected('Товар с нулевым количеством не может быть добавлен')
+                        # добавить обьект(i) в категорию
+                        self.__products.append(i)
+                        # количество продуктов +1
+                        type(self).product_count += 1
+            # если обьект не Product или его наследник
+            else:
+                raise TypeError
+        except CategoryExpected as e:
+            print(f"Ошибка : {e}")
+        except TypeError:
+            print('Ошибка: неверный тип обьекта')
+        finally:
+            print('Обработка добавления товара завершена')
+
     #     Задание 2(14.2)
     # Так как вы сделали атрибут со списком товаров приватным,
     # то атрибут «список товаров категории» у вас освободился,
@@ -116,8 +128,32 @@ class Category:
     # метод(заменяющий атрибут, потому что мы его сделали приватным)
     @property
     def products(self):
+        """
+
+        :return: str
+        """
         return self.get_products()
 
+    def middle_price(self):
+        """
+        метод подсчитывает средний ценник товаров внутри категории
+        return:
+        """
+        # общая сумма
+        sum_price = 0
+        # общее количество
+        sum_quantity = 0
+        try:
+
+            for product in self.__products:
+                    sum_price += product.price * product.quantity
+                    sum_quantity += product.quantity
+
+            # средняя цена 1 товара внутри категории
+            return sum_price/sum_quantity
+
+        except ZeroDivisionError:
+            return 0
 
 # p_1 = Product('name','описание',99,2)
 # print(p_1)

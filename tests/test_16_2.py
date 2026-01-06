@@ -61,7 +61,7 @@ def test_console_massage_baseclass(capsys, class_args):
     :param class_args: ["Cola","foreign", 66, 123]
     # :return:
     """
-
+    # переменная не используется, но в процессе создания в командную строку выводиться сообщение
     obj = Product(*class_args)
     cap = capsys.readouterr()
     assert "Product(name = Cola,description = foreign,price = 66,quantity = 123)" in cap.out

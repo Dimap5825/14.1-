@@ -23,7 +23,7 @@ class Product(Mixin, BaseProduct):
         Создан обьект: Product('Священноискатель', 'Описание есть ', 90000, 9)
     BaseProduct - базовый класс
     """
-
+    __slots__ = ('name','description','__quantity', "__price")
     # название
     name: str
     # описание
@@ -38,13 +38,17 @@ class Product(Mixin, BaseProduct):
         # отсылает его к __init__ в Mixin
         super().__init__(name,description,price,quantity)
 
+        self.__quantity = self.quantity
+        self.__price = self.price
+
+
     # строковое отображение продукта
     def __str__(self):
         """
 
         :return: str
         """
-        return f"{self.name}, {self.__price} руб. Остаток:{self.quantity} шт.\n"
+        return f"{self.name}, {self.__price} руб. Остаток:{self.__quantity} шт.\n"
 
     def __add__(self, other):
         """
@@ -54,7 +58,7 @@ class Product(Mixin, BaseProduct):
         """
         # если классы одинаковые, то складывать иначе TypeError
         if type(self) == type(other):
-            return (self.price * self.quantity) + (other.price * other.quantity)
+            return (self.__price * self.__quantity) + (other.__price * other.__quantity)
         else:
             raise TypeError
 
@@ -67,16 +71,16 @@ class Product(Mixin, BaseProduct):
         return (
             self.name == other.name
             and self.description == other.description
-            and self.price == other.price
-            and self.quantity == other.quantity
+            and self.__price == other.__price
+            and self.__quantity == other.__quantity
         )
 
     # определяет как обьект будет выглядить при выходе
     def __repr__(self):
         return (f"Product(name = {self.name},"
                 f"description = {self.description},"
-                f"price = {self.price},"
-                f"quantity = {self.quantity})")
+                f"price = {self.__price},"
+                f"quantity = {self.__quantity})")
 
     # Задание 3 (14.2)
     # Пусть нам передают список товаров в таом формате:
@@ -152,6 +156,19 @@ class Product(Mixin, BaseProduct):
     def display(self):
         return self.__str__()
 
+    @property
+    def quantity(self):
+        return self.__quantity
+
+    @quantity.setter
+    def quantity(self,new_quantity):
+        if isinstance(new_quantity, int):
+            if new_quantity != 0:
+                self.__quantity = new_quantity
+            else:
+                raise ValueError("Товар с нулевым количеством не может быть добавлен")
+        else:
+            raise TypeError
 class Smartphone(Product):
     """
     Класс: «Смартфон» Smartphone
@@ -192,4 +209,5 @@ class LawnGrass(Product):
         self.color = color                              # цвет
 
 
-p_1 = Product("Священноискатель","Описание есть ", price=90000,quantity=9)
+if __name__ == 'main':
+    p_1 = Product("Священноискатель","Описание есть ", price=90000,quantity=9)
