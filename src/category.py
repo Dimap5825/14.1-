@@ -31,7 +31,6 @@ class Category:
         # количество товаров
         self.product_count = len(products)
 
-
         Category.category_count += 1
         Category.product_count += len(products)
 
@@ -90,7 +89,9 @@ class Category:
                     # если i(обьект из списка) является обьектом класса Product или его наследников(дочерних классов)
                     if issubclass(type(i), Product):
                         if i.quantity == 0:
-                            raise CategoryExpected('Товар с нулевым количеством не может быть добавлен')
+                            raise CategoryExpected(
+                                "Товар с нулевым количеством не может быть добавлен"
+                            )
                         # добавить обьект(i) в категорию
                         self.__products.append(i)
                         # количество продуктов +1
@@ -101,9 +102,9 @@ class Category:
         except CategoryExpected as e:
             print(f"Ошибка : {e}")
         except TypeError:
-            print('Ошибка: неверный тип обьекта')
+            print("Ошибка: неверный тип обьекта")
         finally:
-            print('Обработка добавления товара завершена')
+            print("Обработка добавления товара завершена")
 
     #     Задание 2(14.2)
     # Так как вы сделали атрибут со списком товаров приватным,
@@ -146,14 +147,15 @@ class Category:
         try:
 
             for product in self.__products:
-                    sum_price += product.price * product.quantity
-                    sum_quantity += product.quantity
+                sum_price += product.price * product.quantity
+                sum_quantity += product.quantity
 
             # средняя цена 1 товара внутри категории
-            return sum_price/sum_quantity
+            return sum_price / sum_quantity
 
         except ZeroDivisionError:
             return 0
+
 
 # p_1 = Product('name','описание',99,2)
 # print(p_1)
