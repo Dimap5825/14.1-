@@ -41,8 +41,11 @@ class Product(Mixin, BaseProduct):
     def __init__(self, name, description, price, quantity):
         # отсылает его к __init__ в Mixin
         super().__init__(name, description, price, quantity)
-
-        self.__quantity = self.quantity
+        # Проверка, что количество не = 0
+        if quantity == 0:
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+        else:
+            self.__quantity = self.quantity
         self.__price = self.price
 
     # строковое отображение продукта
