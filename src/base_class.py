@@ -12,8 +12,8 @@ class BaseProduct(ABC):
     def __init__(self, name, description, price, quantity):
         # предварительные проверки
         ## если количество 0 то ошибка Товар с нулевым количеством не может быть добавлен
-        if quantity == 0:
-            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+        # if quantity == 0:
+        #     raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
         # создание обьекта
         self.name = name
